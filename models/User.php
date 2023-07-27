@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\web\IdentityInterface;
 
 /**
  * This is the model class for table "tbl_user".
@@ -11,11 +12,13 @@ use Yii;
  * @property string $username
  * @property string $password
  * @property string $salt
+ * @property string $auth_key
+ * @property string $access_token
  * @property string $email
  *
  * @property Comment[] $Comments
  */
-class User extends \yii\db\ActiveRecord
+class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
     /**
      * {@inheritdoc}
@@ -31,7 +34,7 @@ class User extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['username', 'password', 'salt', 'email'], 'required'],
+            [['username', 'password', 'salt', 'email', 'auth_key', 'access_token'], 'required'],
             [['username'], 'string', 'max' => 20],
             [['password', 'salt'], 'string', 'max' => 50],
             [['email'], 'string', 'max' => 25],
@@ -60,5 +63,35 @@ class User extends \yii\db\ActiveRecord
     public function getComments()
     {
         return $this->hasMany(Comment::class, ['author_id' => 'id']);
+    }
+
+    public static function findIdentity($id)
+    {
+        return self::findOne($id);
+    }
+
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+        return self::find()->where(['access_token'=>$token])->one();
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getAuthKey(): string
+    {
+        return $this->auth_key;
+    }
+
+    public function validateAuthKey($authKey): bool
+    {
+        return $this->auth_key === $authKey;
+    }
+
+    public function validatePassword($password): bool
+    {
+        return Yii::$app->security->validatePassword($password, $this->password);
     }
 }
