@@ -13,11 +13,11 @@ use yii\base\Model;
  */
 class LoginForm extends Model
 {
-    public $username;
-    public $password;
-    public $rememberMe = true;
+    public string $username = '';
+    public string $password;
+    public bool $rememberMe = true;
 
-    private $_user = false;
+    private bool $_user = false;
 
 
     /**
@@ -26,11 +26,8 @@ class LoginForm extends Model
     public function rules()
     {
         return [
-            // username and password are both required
             [['username', 'password'], 'required'],
-            // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
-            // password is validated by validatePassword()
             ['password', 'validatePassword'],
         ];
     }

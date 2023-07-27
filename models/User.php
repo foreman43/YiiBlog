@@ -35,7 +35,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return [
             [['username', 'password', 'salt', 'email', 'auth_key', 'access_token'], 'required'],
-            [['username'], 'string', 'max' => 20],
+            [['username'], 'string', 'min' => 3, 'max' => 20],
             [['password', 'salt'], 'string', 'max' => 50],
             [['email'], 'string', 'max' => 25],
         ];
@@ -75,6 +75,11 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return self::find()->where(['access_token'=>$token])->one();
     }
 
+    public static function findIdentityByUsername(string $username): User
+    {
+        return self::findOne(['username'=> $username]);
+    }
+
     public function getId(): int
     {
         return $this->id;
@@ -93,5 +98,10 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function validatePassword($password): bool
     {
         return Yii::$app->security->validatePassword($password, $this->password);
+    }
+
+    public function avaliableUsername($username)
+    {
+        return self::findOne(['username' => $username])->cache(3600) === null;
     }
 }
