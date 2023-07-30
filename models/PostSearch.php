@@ -14,11 +14,14 @@ class PostSearch extends Post
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            [['id', 'status'], 'integer'],
-            [['title', 'content', 'created_at', 'updated_at'], 'safe'],
+            [['title', 'content'], 'required'],
+            [['content'], 'string', 'min' => 25],
+            [['status'], 'exist', 'skipOnError' => true, 'targetClass' => Lookup::class, 'targetAttribute' => ['status' => 'id']],
+            [['created_at', 'updated_at'], 'safe'],
+            [['title'], 'string', 'max' => 128],
         ];
     }
 

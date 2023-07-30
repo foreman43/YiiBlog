@@ -10,7 +10,7 @@ use Yii;
  * @property int $id
  * @property string $title
  * @property string $content
- * @property int|null $status
+ * @property Lookup $status
  * @property string $created_at
  * @property string $updated_at
  *
@@ -35,7 +35,7 @@ class Post extends \yii\db\ActiveRecord
         return [
             [['title', 'content'], 'required'],
             [['content'], 'string', 'min' => 25],
-            [['status'], 'integer'],
+            [['status'], 'exist', 'skipOnError' => true, 'targetClass' => Lookup::class, 'targetAttribute' => ['status' => 'id']],
             [['created_at', 'updated_at'], 'safe'],
             [['title'], 'string', 'max' => 128],
         ];
@@ -83,5 +83,10 @@ class Post extends \yii\db\ActiveRecord
         foreach ($tagposts as $tagpost) {
             array_push($tags, $tagpost->getTag());
         }
+    }
+
+    public function getStatusLabel()
+    {
+        return $this->hasOne(Lookup::class, ['id' => 'status']);
     }
 }
