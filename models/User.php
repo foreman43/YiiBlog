@@ -12,9 +12,9 @@ use yii\web\IdentityInterface;
  * @property string $username
  * @property string $password
  * @property string $salt
+ * * @property string $email
  * @property string $auth_key
  * @property string $access_token
- * @property string $email
  *
  * @property Comment[] $Comments
  */
@@ -36,7 +36,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return [
             [['username', 'password', 'salt', 'email', 'auth_key', 'access_token'], 'required'],
             [['username'], 'string', 'min' => 3, 'max' => 20],
-            [['password', 'salt'], 'string', 'max' => 50],
+            [['password', 'salt'], 'string', 'max' => 255],
             [['email'], 'string', 'max' => 25],
         ];
     }
@@ -77,7 +77,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
 
     public static function findIdentityByUsername(string $username): User
     {
-        return self::findOne(['username'=> $username]);
+        return self::findOne(['username'=>$username]);
     }
 
     public function getId(): int

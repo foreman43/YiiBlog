@@ -8,10 +8,10 @@ use yii\helpers\VarDumper;
 
 class RegisterForm extends Model
 {
-    public string $username;
-    public string $email;
-    public string $password;
-    public string $passwordRepeat;
+    public string $username = '';
+    public string $email = '';
+    public string $password = '';
+    public string $passwordRepeat = '';
 
 
     /**
@@ -23,23 +23,23 @@ class RegisterForm extends Model
             [['username', 'email', 'password','passwordRepeat'], 'required'],
             ['username', 'string', 'min' => 3, 'max' => 20],
             ['email', 'email'],
-            ['password', 'string', 'min' => 5, 'max' => 50],
+            ['password', 'string', 'min' => 5, 'max' => 255],
             ['username', 'validateName'],
             ['passwordRepeat', 'compare', 'compareAttribute' => 'password']
         ];
     }
 
-    public function register()
+    public function register(): bool
     {
         $user = new User();
         $user->username = $this->username;
         $user->password = Yii::$app->security->generatePasswordHash($this->password);
         $user->salt = Yii::$app->security->generateRandomString();
-        $user->auth_key = Yii::$app->security->generateRandomString(12);
-        $user->access_token = Yii::$app->security->generateRandomString(12);
+        $user->auth_key = Yii::$app->security->generateRandomString();
+        $user->access_token = Yii::$app->security->generateRandomString();
         $user->email = $this->email;
 
-        if($user->save())
+        /*if($user->save())
         {
             Yii::$app->user->login($user, 0);
             return true;
@@ -48,7 +48,9 @@ class RegisterForm extends Model
         {
             Yii::error('User not saved in DB.'.VarDumper::dump($user->errors));
             return false;
-        }
+        }*/
+        var_dump($user->save());
+        return false;
     }
 
     public function validateName($attribute, $params)
@@ -64,10 +66,6 @@ class RegisterForm extends Model
 
     public function getUser()
     {
-        if ($this->_user === false) {
-            $this->_user = User::findIdentityByUsername($this->username);
-        }
-
-        return $this->_user;
+        return User::findIdentityByUsername($this->username);
     }
 }
