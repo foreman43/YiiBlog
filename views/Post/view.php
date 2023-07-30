@@ -30,7 +30,13 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
     </p>
 
-    <?= DetailView::widget([
+    <p class="text-muted">
+        <small>
+            Created: <?php echo Yii::$app->formatter->asRelativeTime($model->created_at) ?>
+        </small>
+    </p>
+
+    <?php echo $model->getEncodedText();/*DetailView::widget([
         'model' => $model,
         'attributes' => [
             'id',
@@ -40,6 +46,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'created_at',
             'updated_at',
         ],
-    ]) ?>
+    ])*/ ?>
 
 </div>

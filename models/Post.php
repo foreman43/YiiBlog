@@ -89,4 +89,9 @@ class Post extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Lookup::class, ['id' => 'status']);
     }
+
+    public function getEncodedText(): string
+    {
+        return yii\helpers\Html::encode($this->content);
+    }
 }
