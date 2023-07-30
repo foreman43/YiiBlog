@@ -34,10 +34,10 @@ class Post extends \yii\db\ActiveRecord
     {
         return [
             [['title', 'content'], 'required'],
-            [['content'], 'string'],
+            [['content'], 'string', 'min' => 25],
             [['status'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
-            [['title'], 'string', 'max' => 30],
+            [['title'], 'string', 'max' => 128],
         ];
     }
 
@@ -74,5 +74,14 @@ class Post extends \yii\db\ActiveRecord
     public function getTagPosts()
     {
         return $this->hasMany(TagPost::class, ['post_id' => 'id']);
+    }
+
+    public function getTags()
+    {
+        $tags = [];
+        $tagposts = $this->getTagPosts();
+        foreach ($tagposts as $tagpost) {
+            array_push($tags, $tagpost->getTag());
+        }
     }
 }
