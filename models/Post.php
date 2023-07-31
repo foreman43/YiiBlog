@@ -85,7 +85,7 @@ class Post extends \yii\db\ActiveRecord
         }
     }
 
-    public function getStatusLabel()
+    public function getStatus()
     {
         return $this->hasOne(Lookup::class, ['id' => 'status']);
     }

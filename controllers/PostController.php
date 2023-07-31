@@ -35,6 +35,11 @@ class PostController extends Controller
                             'allow' => true,
                             'actions' => ['create', 'update', 'delete'],
                             'roles' => ['@']
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['index', 'view'],
+                            'roles' => ['?', '@']
                         ]
                     ]
                 ]
