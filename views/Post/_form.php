@@ -7,7 +7,6 @@ use \app\models\Tag;
 
 /** @var yii\web\View $this */
 /** @var app\models\Post $model */
-/** @var app\models\TagPost $modelTP */
 /** @var yii\widgets\ActiveForm $form */
 ?>
 
@@ -16,13 +15,15 @@ use \app\models\Tag;
     <?php
     $statusList = Lookup::find()->all();
     foreach ($statusList as $item) {
-        $keyValueStatList[] = [$item->id => $item->name];
+        $keyValueStatList[$item->id] = $item->name;
     }
 
-    /*$TagList = Tag::find()->all();
+    $TagList = Tag::find()->all();
+
+    $keyValueTagList = [];
     foreach ($TagList as $item) {
-        $keyValueTagList[] = [$item->id => $item->name];
-    }*/
+        $keyValueTagList[$item->id] = $item->name;
+    }
 
     $form = ActiveForm::begin();
     ?>
@@ -33,9 +34,7 @@ use \app\models\Tag;
 
     <?= $form->field($model, 'status')->dropDownList($keyValueStatList) ?>
 
-    <?php
-    //todo: find how to implement tags (most likely subForm)
-    //$form->field($modelTP, 'content')->checkboxList($keyValueTagList) ?>
+    <?= $form->field($model, 'tagIdList')->checkboxList($keyValueTagList) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
