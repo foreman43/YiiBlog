@@ -19,6 +19,7 @@ use Yii;
  */
 class Post extends \yii\db\ActiveRecord
 {
+    public array $tagIdList = [];
     /**
      * {@inheritdoc}
      */
@@ -53,6 +54,7 @@ class Post extends \yii\db\ActiveRecord
             'status' => 'Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'tagList' => 'Tags'
         ];
     }
 
@@ -79,10 +81,33 @@ class Post extends \yii\db\ActiveRecord
     public function getTags()
     {
         $tags = [];
-        $tagposts = $this->getTagPosts();
-        foreach ($tagposts as $tagpost) {
-            array_push($tags, $tagpost->getTag());
+        $tagPosts = $this->getTagPosts()->all();
+        foreach ($tagPosts as $tagPost) {
+            array_push($tags, $tagPost->getTag()->one());
         }
+        return $tags;
+    }
+
+    public function setTags(): bool
+    {
+        $currentTags = $this->getTags();
+        foreach ($currentTags as $currTag) {
+            if (!in_array($currTag->id, $this->tagIdList)) {
+                TagPost::findOne(['id' => $currTag->id])->delete();
+            }
+        }
+
+        foreach ($this->tagIdList as $tagId) {
+            if (!in_array($tagId, $currentTags)) {
+                $tagPost = new TagPost();
+                $tagPost->tag_id = $tagId;
+                $tagPost->post_id = $this->id;
+                if(!$tagPost->save()) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public function getStatus()
