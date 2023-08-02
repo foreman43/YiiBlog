@@ -5,6 +5,7 @@ use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
 /** @var app\models\Post $model */
+/** @var app\models\Comment $commentModel */
 
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Posts', 'url' => ['index']];
@@ -18,8 +19,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?php
          if(!Yii::$app->user->isGuest) {
-             Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']);
-             Html::a('Delete', ['delete', 'id' => $model->id], [
+             echo Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']);
+             echo Html::a('Delete', ['delete', 'id' => $model->id], [
                 'class' => 'btn btn-danger',
                 'data' => [
                     'confirm' => 'Are you sure you want to delete this item?',
@@ -36,16 +37,14 @@ $this->params['breadcrumbs'][] = $this->title;
         </small>
     </p>
 
-    <?php echo $model->getEncodedText();/*DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'title',
-            'content:ntext',
-            'status',
-            'created_at',
-            'updated_at',
-        ],
-    ])*/ ?>
+    <?php echo $model->getEncodedText(); ?>
+    <hr>
+    <div id="comments">
+        <?php
+        $count = $model->getComments()->count();
+        echo $count > 0 ? "<h4>Comments $count</h4>" : "";
+        echo $this->render('_comments', ['model' => $model, 'comments' => $model->getComments()->all()])
+        ?>
+    </div>
 
 </div>
