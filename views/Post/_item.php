@@ -11,6 +11,8 @@ use yii\helpers\StringHelper;
 <div>
     <?php
     echo StringHelper::truncateWords($model->getEncodedText(),50);
+    //todo: add some style difference to comments count
+    echo '<p>' . $model->getComments()->count() . ' Comments</p>';
     ?>
 </div>
 <hr>
