@@ -17,7 +17,6 @@ class PostSearch extends Post
     public function rules(): array
     {
         return [
-            [['title', 'content'], 'required'],
             [['content'], 'string', 'min' => 25],
             [['status'], 'exist', 'skipOnError' => true, 'targetClass' => Lookup::class, 'targetAttribute' => ['status' => 'id']],
             [['created_at', 'updated_at'], 'safe'],
@@ -60,15 +59,23 @@ class PostSearch extends Post
         }
 
         // grid filtering conditions
+        // todo: Test filter
         $query->andFilterWhere([
             'id' => $this->id,
             'status' => $this->status,
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'content', $this->content]);
+
+        $tagWhere[] = 'or';
+        foreach ($this->tagIdList as $tagId)
+        {
+            $tagWhere[] = ['tbl_tag_post.tag_id' => $tagId];
+        }
+        $query->innerJoin('tbl_tag_post', 'tbl_tag_post.post_id = tbl_post.id')
+            ->andFilterWhere($tagWhere);
 
         return $dataProvider;
     }

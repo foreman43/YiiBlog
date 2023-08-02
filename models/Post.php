@@ -54,7 +54,7 @@ class Post extends \yii\db\ActiveRecord
             'status' => 'Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'tagList' => 'Tags'
+            'tagIdList' => 'Tags',
         ];
     }
 

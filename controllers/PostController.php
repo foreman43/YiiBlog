@@ -71,9 +71,14 @@ class PostController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        $model = $this->findModel($id);
+        if($model->status->id == 1) {
+            return $this->render('view', [
+                'model' => $model,
+            ]);
+        } else {
+            //todo: Implement display a page with an error
+        }
     }
 
     /**
