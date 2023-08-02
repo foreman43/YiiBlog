@@ -30,6 +30,7 @@ use app\models\Tag;
     foreach ($TagList as $item) {
         $keyValueTagList[$item->id] = $item->name;
     }
+    //todo: status filter only for admin
     ?>
 
     <?= $form->field($model, 'title') ?>

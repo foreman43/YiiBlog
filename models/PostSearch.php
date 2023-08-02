@@ -60,6 +60,7 @@ class PostSearch extends Post
 
         // grid filtering conditions
         // todo: Test filter
+        //filter by default don't show post without any tags
         $query->andFilterWhere([
             'id' => $this->id,
             'status' => $this->status,
