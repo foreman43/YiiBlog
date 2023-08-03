@@ -102,6 +102,13 @@ class CommentController extends Controller
         ]);
     }
 
+    public function actionApprove($id)
+    {
+        $model = $this->findModel($id);
+        $model->approved = true;
+        $model->save();
+    }
+
     /**
      * Deletes an existing Comment model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
