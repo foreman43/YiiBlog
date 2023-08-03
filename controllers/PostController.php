@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Comment;
 use app\models\Post;
 use app\models\PostSearch;
 use yii\web\Controller;
@@ -71,16 +72,27 @@ class PostController extends Controller
      */
     public function actionView($id)
     {
-        //todo: back to default
         $model = $this->findModel($id);
-        var_dump($model->status);
-        if($model->status == 1) {
-            return $this->render('view', [
-                'model' => $model,
-            ]);
-        } else {
+        return $this->render('view', [
+            'model' => $model,
+            'comment' => $this->newComment($model),
+        ]);
+    }
 
+    protected function newComment(Post $PostModel)
+    {
+        $comment = new Comment();
+        if($this->request->isPost) {
+            if($comment->load($this->request->post()) && $PostModel->addComment($comment->content)) {
+                if($comment->approved) {
+                    Yii::app()->user->setFlash('commentSubmitted','Thank you for your comment.
+                Your comment will be posted once it is approved.');
+                    $this->refresh();
+                }
+            }
         }
+
+        return $comment;
     }
 
     /**
