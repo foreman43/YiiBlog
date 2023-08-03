@@ -2,10 +2,10 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use app\models\Comment;
 
 /** @var yii\web\View $this */
 /** @var app\models\Post $model */
-/** @var app\models\Comment $commentModel */
 
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Posts', 'url' => ['index']];
@@ -40,6 +40,15 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php echo $model->getEncodedText(); ?>
     <hr>
     <div id="comments">
+        <?php
+        //implement flash message
+        ?>
+        <div id="comments-form">
+            <?php
+            echo $this->render('\..\Comment\_form', ['model' => new Comment()]);
+            ?>
+        </div>
+
         <?php
         $count = $model->getComments()->count();
         echo $count > 0 ? "<h4>Comments $count</h4>" : "";
