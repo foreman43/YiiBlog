@@ -1,13 +1,16 @@
 <?php
 
+use yii\helpers\Html;
+
 /** @var app\models\Post $model */
 /** @var \app\models\Comment[] $comments */
 
-use yii\helpers\Html;
 
 foreach ($comments as $comment) {
     if($comment->approved) {
         echo "<h5>{$comment->author->email}</h5>";
+        $time = Yii::$app->formatter->asRelativeTime($comment->created_at);
+        echo "<small class='text-muted'>$time</small>";
         echo "<p>{$comment->content}</p>";
         if(!Yii::$app->user->isGuest && Yii::$app->user->id == 1) {
             if(!$comment->approved) {
