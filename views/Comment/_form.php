@@ -6,7 +6,6 @@ use yii\widgets\ActiveForm;
 /** @var yii\web\View $this */
 /** @var app\models\Comment $model */
 /** @var yii\widgets\ActiveForm $form */
-/** @var app\models\Post $post */
 ?>
 
 <div class="comment-form">

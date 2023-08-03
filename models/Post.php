@@ -68,16 +68,12 @@ class Post extends \yii\db\ActiveRecord
         return $this->hasMany(Comment::class, ['post_id' => 'id']);
     }
 
-    public function addComment($content)
+    public function addComment(Comment $model)
     {
-        //todo: after fixing newComment in controllet replace content to model
         //todo: bug - wrwong data format saved in DB {approved}
-        $model = new Comment();
-        $model->content = $content;
         $model->approved = false;
         $model->post_id = $this->id;
         $model->author_id = Yii::$app->user->id;
-        var_dump($model);
 
         return $model->save();
     }
