@@ -9,7 +9,7 @@ use Yii;
  *
  * @property int $id
  * @property string $content
- * @property resource|null $approved
+ * @property bool|null $approved
  * @property string $created_at
  * @property int $post_id
  * @property int $author_id
@@ -34,10 +34,8 @@ class Comment extends \yii\db\ActiveRecord
     {
         return [
             [['content', 'post_id', 'author_id'], 'required'],
-            [['created_at'], 'safe'],
             [['post_id', 'author_id'], 'integer'],
             [['content'], 'string', 'max' => 256],
-            [['approved'], 'string', 'max' => 1],
             [['post_id'], 'exist', 'skipOnError' => true, 'targetClass' => Post::class, 'targetAttribute' => ['post_id' => 'id']],
             [['author_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['author_id' => 'id']],
         ];
@@ -50,7 +48,7 @@ class Comment extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'content' => 'Content',
+            'content' => 'Your comment:',
             'approved' => 'Approved',
             'created_at' => 'Created At',
             'post_id' => 'Post ID',
