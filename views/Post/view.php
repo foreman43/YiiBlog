@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php
         $count = $model->getComments()->count();
         echo $count > 0 ? "<h4>Comments $count</h4><hr>" : "";
-        echo $this->render('_comments', ['model' => $model, 'comments' => $model->getComments()->all()])
+        echo $this->render('_comments', ['comments' => $model->getComments()->all()])
         ?>
     </div>
 

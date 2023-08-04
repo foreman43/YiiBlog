@@ -51,7 +51,7 @@ class Comment extends \yii\db\ActiveRecord
             'content' => 'Your comment:',
             'approved' => 'Approved',
             'created_at' => 'Created At',
-            'post_id' => 'Post ID',
+            'post_id' => 'Post',
             'author_id' => 'Author ID',
         ];
     }
