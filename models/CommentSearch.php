@@ -14,11 +14,14 @@ class CommentSearch extends Comment
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            [['id', 'post_id', 'author_id'], 'integer'],
-            [['content', 'approved', 'created_at'], 'safe'],
+            [['content', 'post_id', 'author_id'], 'required'],
+            [['post_id', 'author_id'], 'integer'],
+            [['content'], 'string', 'max' => 256],
+            [['post_id'], 'exist', 'skipOnError' => true, 'targetClass' => Post::class, 'targetAttribute' => ['post_id' => 'id']],
+            [['author_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['author_id' => 'id']],
         ];
     }
 
