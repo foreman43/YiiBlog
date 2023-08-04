@@ -3,8 +3,8 @@
 /** @var yii\web\View $this */
 
 use yii\helpers\Url;
-Yii::$app->response->redirect('/post/index');
-$this->title = 'My Yii Application';
+
+$this->title = 'User Menu';
 ?>
 <div class="site-index">
 
@@ -44,3 +44,4 @@ $this->title = 'My Yii Application';
 
     </div>
 </div>
+
