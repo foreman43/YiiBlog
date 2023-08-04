@@ -34,7 +34,7 @@ class PostController extends Controller
                     'rules' => [
                         [
                             'allow' => true,
-                            'actions' => ['create', 'update', 'delete'],
+                            'actions' => ['create', 'update', 'delete','control'],
                             'roles' => ['@']
                         ],
                         [
@@ -59,6 +59,17 @@ class PostController extends Controller
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionControl()
+    {
+        $searchModel = new PostSearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
+
+        return $this->render('control', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);

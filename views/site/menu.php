@@ -38,7 +38,7 @@ $this->title = 'User Menu';
 
                 <p></p>
 
-                <p><a class="btn btn-outline-secondary" href="<?php echo Url::to(['/post/index']) ?>">Управление записями &raquo;</a></p>
+                <p><a class="btn btn-outline-secondary" href="<?php echo Url::to(['/post/control']) ?>">Управление записями &raquo;</a></p>
             </div>
         </div>
 
