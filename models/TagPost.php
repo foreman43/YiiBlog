@@ -68,4 +68,20 @@ class TagPost extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Tag::class, ['id' => 'tag_id']);
     }
+
+    public static function getTagsWeight()
+    {
+        $rows = (new \yii\db\Query())
+            ->select(['tbl_tag.name', 'COUNT(tbl_tag_post.id) AS count'])
+            ->from('tbl_tag_post')
+            ->innerJoin('tbl_tag', 'tbl_tag.id = tbl_tag_post.tag_id')
+            ->groupBy('tbl_tag.name')
+            ->all();
+
+        foreach ($rows as $item) {
+            $weight[$item['name']] = ['weight' => $item['count']];
+        }
+
+        return $weight;
+    }
 }
