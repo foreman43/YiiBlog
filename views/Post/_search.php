@@ -19,10 +19,10 @@ use app\models\Tag;
     ]);
 
     //todo: move to post model?
-    $statusList = Lookup::find()->all();
+    /*$statusList = Lookup::find()->all();
     foreach ($statusList as $item) {
         $keyValueStatList[$item->id] = $item->name;
-    }
+    }*/
 
     $TagList = Tag::find()->all();
 
@@ -35,7 +35,7 @@ use app\models\Tag;
 
     <?= $form->field($model, 'title') ?>
 
-    <?= $form->field($model, 'status')->dropDownList($keyValueStatList) ?>
+    <?php /*= $form->field($model, 'status')->dropDownList($keyValueStatList) */?>
 
     <?= $form->field($model, 'created_at') ?>
 

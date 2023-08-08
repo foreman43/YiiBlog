@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\Url;
+use yii\helpers\Html;
 
 /**
  * This is the model class for table "tbl_tag_post".
@@ -72,14 +74,17 @@ class TagPost extends \yii\db\ActiveRecord
     public static function getTagsWeight()
     {
         $rows = (new \yii\db\Query())
-            ->select(['tbl_tag.name', 'COUNT(tbl_tag_post.id) AS count'])
+            ->select(['tbl_tag.id', 'tbl_tag.name', 'COUNT(tbl_tag_post.id) AS count'])
             ->from('tbl_tag_post')
             ->innerJoin('tbl_tag', 'tbl_tag.id = tbl_tag_post.tag_id')
             ->groupBy('tbl_tag.name')
             ->all();
 
+        $searchModel = new PostSearch();
         foreach ($rows as $item) {
-            $weight[$item['name']] = ['weight' => $item['count']];
+            $weight[$item['name']] = [
+                'weight' => $item['count'],
+                'url' => Url::to('post/index', ["PostSearch" => ["tagIdList" => $item['id'] ]])];
         }
 
         return $weight;

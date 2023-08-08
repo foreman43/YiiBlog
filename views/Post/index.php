@@ -18,12 +18,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= !Yii::$app->user->isGuest ? Html::a('Create Post', ['create'], ['class' => 'btn btn-success']) : '' ?>
-    </p>
-
-    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
-
     <?php
     //todo: Implement as a function?
     echo TagCloud::widget([
@@ -36,6 +30,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'options' => ['style' => 'word-wrap: break-word;']
     ]);
     ?>
+
+    <p>
+        <?= !Yii::$app->user->id == 1 ? Html::a('Create Post', ['create'], ['class' => 'btn btn-success']) : '' ?>
+    </p>
+
+    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
