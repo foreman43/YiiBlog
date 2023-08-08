@@ -71,7 +71,7 @@ class TagPost extends \yii\db\ActiveRecord
         return $this->hasOne(Tag::class, ['id' => 'tag_id']);
     }
 
-    public static function getTagsWeight()
+    public static function getTagsWeight(): array
     {
         $rows = (new \yii\db\Query())
             ->select(['tbl_tag.id', 'tbl_tag.name', 'COUNT(tbl_tag_post.id) AS count'])
@@ -82,11 +82,11 @@ class TagPost extends \yii\db\ActiveRecord
 
         $searchModel = new PostSearch();
         foreach ($rows as $item) {
-            $weight[$item['name']] = [
-                'weight' => $item['count'],
-                'url' => Url::to('post/index', ["PostSearch" => ["tagIdList" => $item['id'] ]])];
+            $params =  ["PostSearch" => ["tagIdList" => [$item['id']] ]];
+            array_unshift($params, 'post/index');
+            $weight[$item['name']] = ['weight' => $item['count'], 'url' => Url::to($params)];
         }
 
-        return $weight;
+        return $weight ?? [];
     }
 }

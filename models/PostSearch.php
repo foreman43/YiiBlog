@@ -58,10 +58,9 @@ class PostSearch extends Post
             return $dataProvider;
         }
 
-        // grid filtering conditions
-        // todo: Test filter
-        //filter by default don't show post without any tags
-        $query->andFilterWhere([
+        //todo: filter by default don't show post without any tags
+        $query->distinct()
+            ->andFilterWhere([
             'id' => $this->id,
             'status' => $this->status,
             'created_at' => $this->created_at,
@@ -71,10 +70,11 @@ class PostSearch extends Post
             ->andFilterWhere(['like', 'content', $this->content]);
 
         $tagWhere[] = 'or';
-        foreach ($this->tagIdList as $tagId)
+        foreach ($params['PostSearch']['tagIdList'] as $tagId)
         {
-            $tagWhere[] = ['tbl_tag_post.tag_id' => $tagId];
+            $tagWhere[] = ['tbl_tag_post.tag_id' => (int)$tagId];
         }
+        var_dump($tagWhere);
         $query->innerJoin('tbl_tag_post', 'tbl_tag_post.post_id = tbl_post.id')
             ->andFilterWhere($tagWhere);
 
