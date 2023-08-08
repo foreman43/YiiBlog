@@ -63,20 +63,21 @@ class PostSearch extends Post
             ->andFilterWhere([
             'id' => $this->id,
             'status' => $this->status,
-            'created_at' => $this->created_at,
         ]);
+        $query->andFilterWhere(['>=' ,'created_at', date('Y-m-d H:i:s', strtotime($this->created_at))]);
 
         $query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'content', $this->content]);
 
-        $tagWhere[] = 'or';
-        foreach ($params['PostSearch']['tagIdList'] as $tagId)
-        {
-            $tagWhere[] = ['tbl_tag_post.tag_id' => (int)$tagId];
+        if(is_array($params['PostSearch']['tagIdList'])) {
+            $tagWhere[] = 'or';
+            foreach ($params['PostSearch']['tagIdList'] as $tagId)
+            {
+                $tagWhere[] = ['tbl_tag_post.tag_id' => (int)$tagId];
+            }
+            $query->innerJoin('tbl_tag_post', 'tbl_tag_post.post_id = tbl_post.id')
+                ->andFilterWhere($tagWhere);
         }
-        var_dump($tagWhere);
-        $query->innerJoin('tbl_tag_post', 'tbl_tag_post.post_id = tbl_post.id')
-            ->andFilterWhere($tagWhere);
 
         return $dataProvider;
     }
