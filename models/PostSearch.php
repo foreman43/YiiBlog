@@ -69,7 +69,7 @@ class PostSearch extends Post
         $query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'content', $this->content]);
 
-        if(is_array($params['PostSearch']['tagIdList'])) {
+        if(isset($params['PostSearch']['tagIdList'])) {
             $tagWhere[] = 'or';
             foreach ($params['PostSearch']['tagIdList'] as $tagId)
             {

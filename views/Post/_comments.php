@@ -7,7 +7,7 @@ use yii\helpers\Html;
 
 
 foreach ($comments as $comment) {
-    if($comment->approved || Yii::$app->user->id == 1) {
+    if($comment->approved) {
         echo $this->render('\..\Comment\_item', ['model' => $comment]);
     }
 }

@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Comment;
 use app\models\CommentSearch;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -105,8 +106,9 @@ class CommentController extends Controller
     public function actionApprove($id)
     {
         $model = $this->findModel($id);
-        $model->approved = true;
+        $model->approved = 1;
         $model->save();
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     /**

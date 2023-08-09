@@ -41,6 +41,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <hr>
     <div id="comments">
         <?php
+        $count = $model->getComments()->count();
+        echo $count > 0 ? "<h4>Comments $count</h4>" : "";
         //implement flash message
         ?>
         <div id="comments-form">
@@ -48,10 +50,9 @@ $this->params['breadcrumbs'][] = $this->title;
             echo $this->render('\..\Comment\_form', ['model' => new Comment()]);
             ?>
         </div>
+        <hr>
 
         <?php
-        $count = $model->getComments()->count();
-        echo $count > 0 ? "<h4>Comments $count</h4><hr>" : "";
         echo $this->render('_comments', ['comments' => $model->getComments()->all()])
         ?>
     </div>
