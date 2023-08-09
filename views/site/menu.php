@@ -24,7 +24,12 @@ $this->title = 'User Menu';
 
                 <p>Коментарии, ожидающие одобрения</p>
 
-                <p><a class="btn btn-outline-secondary" href="<?php echo Url::to(['/comment/index']) ?>">Коментарии &raquo;</a></p>
+                <?php
+                $params =  ["CommentSearch" => ["approved" => 1 ]];
+                array_unshift($params, 'comment/index');
+                ?>
+
+                <p><a class="btn btn-outline-secondary" href="<?php echo Url::to($params) ?>">Коментарии &raquo;</a></p>
             </div>
             <div class="col-lg-4 mb-3">
                 <h2>Создать новую запись</h2>

@@ -4,7 +4,7 @@ use app\models\Comment;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
-use yii\widgets\ListView;
+use yii\grid\GridView;
 
 /** @var yii\web\View $this */
 /** @var app\models\CommentSearch $searchModel */
@@ -17,17 +17,42 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <!--<p>
-        <?php /*= Html::a('Create Comment', ['create'], ['class' => 'btn btn-success']) */?>
-    </p>-->
+    <p>
+        <?= Html::a('Create Comment', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
 
-    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <?= ListView::widget([
+    <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'itemOptions' => ['class' => 'item'],
-        'itemView' => '_item',
-    ]) ?>
+        'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+            'content',
+            [
+                'attribute' => 'approved',
+                'label' => 'Approved',
+                'value' => 'approvedValue'
+            ],
+            'created_at',
+            [
+                'attribute' => 'post_id',
+                'label' => 'Post',
+                'value' => 'postTitle'
+            ],
+            [
+                'attribute' => 'author_id',
+                'label' => 'Author',
+                'value' => 'authorEmail'
+            ],
+            [
+                'class' => ActionColumn::class,
+                'urlCreator' => function ($action, Comment $model, $key, $index, $column) {
+                    return Url::toRoute([$action, 'id' => $model->id]);
+                 }
+            ],
+        ],
+    ]); ?>
 
 
 </div>
