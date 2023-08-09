@@ -21,14 +21,16 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create Comment', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'content',
+            [
+                'attribute' => 'content',
+                'label' => 'Comment',
+                'value' => 'content'
+            ],
             [
                 'attribute' => 'approved',
                 'label' => 'Approved',

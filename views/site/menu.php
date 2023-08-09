@@ -25,7 +25,7 @@ $this->title = 'User Menu';
                 <p>Коментарии, ожидающие одобрения</p>
 
                 <?php
-                $params =  ["CommentSearch" => ["approved" => 1 ]];
+                $params =  ["CommentSearch" => ["approved" => 0 ]];
                 array_unshift($params, 'comment/index');
                 ?>
 

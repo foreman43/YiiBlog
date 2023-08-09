@@ -17,7 +17,6 @@ class CommentSearch extends Comment
     public function rules(): array
     {
         return [
-            [['content', 'post_id', 'author_id', 'approved'], 'required'],
             [['post_id', 'author_id', 'approved'], 'integer'],
             [['content'], 'string', 'max' => 256],
             [['post_id'], 'exist', 'skipOnError' => true, 'targetClass' => Post::class, 'targetAttribute' => ['post_id' => 'id']],
