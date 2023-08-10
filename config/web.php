@@ -50,6 +50,7 @@ $config = [
         ],
     ],
     'params' => $params,
+    'defaultRoute' => 'post',
 ];
 
 if (YII_ENV_DEV) {

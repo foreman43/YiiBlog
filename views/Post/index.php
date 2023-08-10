@@ -1,11 +1,9 @@
 <?php
 
-use app\models\Post;
 use yii\helpers\Html;
-use yii\helpers\Url;
-use yii\grid\ActionColumn;
 use yii\widgets\ListView;
 use asu\tagcloud\TagCloud;
+use \app\models\TagPost;
 
 /** @var yii\web\View $this */
 /** @var app\models\PostSearch $searchModel */
@@ -19,14 +17,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?php
-    //todo: Implement as a function?
     echo TagCloud::widget([
         'beginColor' => '00089A',
         'endColor' => 'A3AEFF',
         'minFontSize' => 8,
         'maxFontSize' => 15,
         'displayWeight' => false,
-        'tags' => \app\models\TagPost::getTagsWeight(),
+        'tags' => TagPost::getTagsWeight(),
         'options' => ['style' => 'word-wrap: break-word;']
     ]);
     ?>
