@@ -34,7 +34,7 @@ class Post extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['title', 'content'], 'required'],
+            [['title', 'content', 'tagIdList'], 'required'],
             [['content'], 'string', 'min' => 25],
             [['status'], 'exist', 'skipOnError' => true, 'targetClass' => Lookup::class, 'targetAttribute' => ['status' => 'id']],
             [['created_at', 'updated_at'], 'safe'],
@@ -97,24 +97,21 @@ class Post extends \yii\db\ActiveRecord
         return $tags;
     }
 
-    public function getTagsWeight()
-    {
-
-    }
-
     public function setTags(): bool
     {
         $currentTags = $this->getTags();
+        $currentTagsId = [];
         foreach ($currentTags as $currTag) {
+            $currentTagsId[] = $currTag->id;
             if (!in_array($currTag->id, $this->tagIdList)) {
                 TagPost::findOne(['id' => $currTag->id])->delete();
             }
         }
 
         foreach ($this->tagIdList as $tagId) {
-            if (!in_array($tagId, $currentTags)) {
+            if (!in_array($tagId, $currentTagsId)) {
                 $tagPost = new TagPost();
-                $tagPost->tag_id = $tagId;
+                $tagPost->tag_id = (int)$tagId;
                 $tagPost->post_id = $this->id;
                 if(!$tagPost->save()) {
                     return false;
