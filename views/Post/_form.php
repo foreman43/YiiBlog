@@ -13,7 +13,6 @@ use \app\models\Tag;
 <div class="post-form">
 
     <?php
-    //todo: move to post model?
     $statusList = Lookup::find()->all();
     foreach ($statusList as $item) {
         $keyValueStatList[$item->id] = $item->name;

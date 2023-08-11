@@ -18,24 +18,15 @@ use app\models\Tag;
         'method' => 'get',
     ]);
 
-    //todo: move to post model?
-    /*$statusList = Lookup::find()->all();
-    foreach ($statusList as $item) {
-        $keyValueStatList[$item->id] = $item->name;
-    }*/
-
     $TagList = Tag::find()->all();
 
     $keyValueTagList = [];
     foreach ($TagList as $item) {
         $keyValueTagList[$item->id] = $item->name;
     }
-    //todo: status filter only for admin
     ?>
 
     <?= $form->field($model, 'title') ?>
-
-    <?php /*= $form->field($model, 'status')->dropDownList($keyValueStatList) */?>
 
     <?= $form->field($model, 'created_at') ?>
 

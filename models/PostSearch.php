@@ -58,7 +58,6 @@ class PostSearch extends Post
             return $dataProvider;
         }
 
-        //todo: filter by default don't show post without any tags
         $query->distinct()
             ->andFilterWhere([
             'id' => $this->id,

@@ -97,6 +97,11 @@ class Post extends \yii\db\ActiveRecord
         return $tags;
     }
 
+    public function getTagsWeight()
+    {
+
+    }
+
     public function setTags(): bool
     {
         $currentTags = $this->getTags();

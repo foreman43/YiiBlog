@@ -71,16 +71,9 @@ class TagPost extends \yii\db\ActiveRecord
         return $this->hasOne(Tag::class, ['id' => 'tag_id']);
     }
 
-    public static function getTagsWeight(): array
+    public static function getTagsWeight(int $postId = 0): array
     {
-        $rows = (new \yii\db\Query())
-            ->select(['tbl_tag.id', 'tbl_tag.name', 'COUNT(tbl_tag_post.id) AS count'])
-            ->from('tbl_tag_post')
-            ->innerJoin('tbl_tag', 'tbl_tag.id = tbl_tag_post.tag_id')
-            ->groupBy('tbl_tag.name')
-            ->all();
-
-        $searchModel = new PostSearch();
+        $rows = $postId != 0 ? self::postTagsWeight($postId) : self::allTagsWeight();
         foreach ($rows as $item) {
             $params =  ["PostSearch" => ["tagIdList" => [$item['id']] ]];
             array_unshift($params, 'post/index');
@@ -88,5 +81,26 @@ class TagPost extends \yii\db\ActiveRecord
         }
 
         return $weight ?? [];
+    }
+
+    protected static function allTagsWeight()
+    {
+        return (new \yii\db\Query())
+            ->select(['tbl_tag.id', 'tbl_tag.name', 'COUNT(tbl_tag_post.id) AS count'])
+            ->from('tbl_tag_post')
+            ->innerJoin('tbl_tag', 'tbl_tag.id = tbl_tag_post.tag_id')
+            ->groupBy('tbl_tag.name')
+            ->all();
+    }
+
+    public static function postTagsWeight(int $postId)
+    {
+        return (new \yii\db\Query())
+            ->select(['tbl_tag.id', 'tbl_tag.name', 'COUNT(tbl_tag_post.id) AS count'])
+            ->from('tbl_tag_post')
+            ->innerJoin('tbl_tag', 'tbl_tag.id = tbl_tag_post.tag_id')
+            ->where(['tbl_tag_post.post_id' => $postId])
+            ->groupBy('tbl_tag.name')
+            ->all();
     }
 }
