@@ -3,7 +3,6 @@
 use app\models\TagPost;
 use asu\tagcloud\TagCloud;
 use yii\helpers\Html;
-use yii\widgets\DetailView;
 use app\models\Comment;
 
 /** @var yii\web\View $this */
@@ -35,6 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             Created: <?php echo Yii::$app->formatter->asRelativeTime($model->created_at) ?>
         </small>
     </p>
+
 
     <?php echo $model->getEncodedText(); ?>
     <hr>
