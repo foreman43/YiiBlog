@@ -23,7 +23,7 @@ use yii\helpers\StringHelper;
     ]);
 
     echo StringHelper::truncateWords($model->getEncodedText(),50);
-    echo '<p class="text-muted">' . $model->getComments()->count() . ' Comments</p>';
+    echo '<p><a class="text-muted" href="' . Url::to(['/post/view', 'id'=>$model->id]) . '">' . $model->getComments()->count() . ' Comments</a></p>';
     ?>
 </div>
 <hr>
