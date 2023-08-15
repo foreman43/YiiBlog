@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use SebastianBergmann\ObjectReflector\Exception;
 use Yii;
 
 /**
@@ -92,7 +93,7 @@ class Post extends \yii\db\ActiveRecord
         $tags = [];
         $tagPosts = $this->getTagPosts()->all();
         foreach ($tagPosts as $tagPost) {
-            array_push($tags, $tagPost->getTag()->one());
+            $tags[] = $tagPost->getTag()->one();
         }
         return $tags;
     }
@@ -103,8 +104,12 @@ class Post extends \yii\db\ActiveRecord
         $currentTagsId = [];
         foreach ($currentTags as $currTag) {
             $currentTagsId[] = $currTag->id;
-            if (!in_array($currTag->id, $this->tagIdList)) {
-                TagPost::findOne(['id' => $currTag->id])->delete();
+            if (!in_array($currTag->id, $this->tagIdList)
+            && TagPost::find()
+                ->where(['tag_id' => $currTag->id, 'post_id' => $this->id])
+                ->exists()) {
+                TagPost::findOne(['tag_id' => $currTag->id, 'post_id' => $this->id])
+                    ->delete();
             }
         }
 
