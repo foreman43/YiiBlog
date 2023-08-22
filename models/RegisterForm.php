@@ -39,7 +39,7 @@ class RegisterForm extends Model
         $user->access_token = Yii::$app->security->generateRandomString();
         $user->email = $this->email;
 
-        /*if($user->save())
+        if($user->save())
         {
             Yii::$app->user->login($user, 0);
             return true;
@@ -48,9 +48,7 @@ class RegisterForm extends Model
         {
             Yii::error('User not saved in DB.'.VarDumper::dump($user->errors));
             return false;
-        }*/
-        var_dump($user->save());
-        return false;
+        }
     }
 
     public function validateName($attribute, $params)
