@@ -6,11 +6,6 @@ class m230816_090802_create_table_tbl_comment extends Migration
 {
     public function safeUp()
     {
-        $tableOptions = null;
-        if ($this->db->driverName === 'mysql') {
-            $tableOptions = 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE=InnoDB';
-        }
-
         $this->createTable(
             '{{%tbl_comment}}',
             [
@@ -20,8 +15,7 @@ class m230816_090802_create_table_tbl_comment extends Migration
                 'created_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
                 'post_id' => $this->integer()->notNull(),
                 'author_id' => $this->integer()->notNull(),
-            ],
-            $tableOptions
+            ]
         );
 
         $this->createIndex('author_id', '{{%tbl_comment}}', ['author_id']);

@@ -6,11 +6,6 @@ class m230816_090548_create_table_tbl_user extends Migration
 {
     public function safeUp()
     {
-        $tableOptions = null;
-        if ($this->db->driverName === 'mysql') {
-            $tableOptions = 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE=InnoDB';
-        }
-
         $this->createTable(
             '{{%tbl_user}}',
             [
@@ -21,9 +16,18 @@ class m230816_090548_create_table_tbl_user extends Migration
                 'email' => $this->string(25)->notNull(),
                 'auth_key' => $this->string()->notNull(),
                 'access_token' => $this->string()->notNull(),
-            ],
-            $tableOptions
+            ]
         );
+
+        $this->insert('{{%tbl_user}}', [
+            'id' => 1,
+            'username' => 'admin',
+            'password' => Yii::$app->security->generatePasswordHash('admin'),
+            'salt' => Yii::$app->security->generateRandomString(),
+            'email' => 'admin@gmail.com',
+            'auth_key' => Yii::$app->security->generateRandomString(),
+            'access_token' => Yii::$app->security->generateRandomString()
+        ]);
     }
 
     public function safeDown()

@@ -6,19 +6,13 @@ class m230816_090704_create_table_tbl_tag_post extends Migration
 {
     public function safeUp()
     {
-        $tableOptions = null;
-        if ($this->db->driverName === 'mysql') {
-            $tableOptions = 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE=InnoDB';
-        }
-
         $this->createTable(
             '{{%tbl_tag_post}}',
             [
                 'id' => $this->primaryKey(),
                 'post_id' => $this->integer()->notNull(),
                 'tag_id' => $this->tinyInteger()->notNull(),
-            ],
-            $tableOptions
+            ]
         );
 
         $this->createIndex('tag_id', '{{%tbl_tag_post}}', ['tag_id']);
