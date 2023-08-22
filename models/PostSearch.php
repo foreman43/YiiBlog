@@ -63,12 +63,12 @@ class PostSearch extends Post
             'id' => $this->id,
             'status' => $this->status,
         ]);
-        $query->andFilterWhere(['>=' ,'created_at', date('Y-m-d H:i:s', strtotime($this->created_at))]);
+        $query->andFilterWhere(['>=' ,'created_at', date('Y-m-d H:i:s', strtotime($this->created_at ?? '1990'))]);
 
         $query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'content', $this->content]);
 
-        if(isset($params['PostSearch']['tagIdList'])) {
+        if(isset($params['PostSearch']['tagIdList']) && is_array($params['PostSearch']['tagIdList'])) {
             $tagWhere[] = 'or';
             foreach ($params['PostSearch']['tagIdList'] as $tagId)
             {
