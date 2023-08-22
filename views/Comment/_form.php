@@ -16,6 +16,10 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'content')->textInput(['maxlength' => true]) ?>
 
+    <?= Yii::$app->user->id == 1
+        ? $form->field($model, 'approved')->checkbox([1 => 'Одобрен'])
+        : ""?>
+
     <div class="form-group">
         <?= Html::submitButton('Comment', ['class' => 'btn btn-success']) ?>
     </div>
