@@ -40,7 +40,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         'options' => ['class' => 'navbar-nav'],
         'items' => [
             ['label' => 'Home', 'url' => ['/post/index']],
-            !Yii::$app->user->isGuest
+            Yii::$app->user->id == 1
                 ? ['label' => 'Menu', 'url' => ['/site/menu']]
                 : '',
             Yii::$app->user->isGuest
