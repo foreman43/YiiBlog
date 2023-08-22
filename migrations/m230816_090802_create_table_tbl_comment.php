@@ -16,7 +16,7 @@ class m230816_090802_create_table_tbl_comment extends Migration
             [
                 'id' => $this->primaryKey(),
                 'content' => $this->string(256)->notNull(),
-                'approved' => $this->binary()->defaultValue('0'),
+                'approved' => $this->boolean()->defaultValue(0),
                 'created_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
                 'post_id' => $this->integer()->notNull(),
                 'author_id' => $this->integer()->notNull(),
