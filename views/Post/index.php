@@ -28,10 +28,6 @@ $this->params['breadcrumbs'][] = $this->title;
     ]);
     ?>
 
-    <p>
-        <?= !Yii::$app->user->id == 1 ? Html::a('Create Post', ['create'], ['class' => 'btn btn-success']) : '' ?>
-    </p>
-
     <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= ListView::widget([
