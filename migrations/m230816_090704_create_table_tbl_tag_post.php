@@ -18,7 +18,7 @@ class m230816_090704_create_table_tbl_tag_post extends Migration
         $this->createIndex('tag_id', '{{%tbl_tag_post}}', ['tag_id']);
         $this->createIndex('post_id', '{{%tbl_tag_post}}', ['post_id']);
 
-        $this->addForeignKey(
+        /*$this->addForeignKey(
             'tbl_tag_post_ibfk_1',
             '{{%tbl_tag_post}}',
             ['post_id'],
@@ -35,7 +35,7 @@ class m230816_090704_create_table_tbl_tag_post extends Migration
             ['id'],
             'CASCADE',
             'CASCADE'
-        );
+        );*/
     }
 
     public function safeDown()

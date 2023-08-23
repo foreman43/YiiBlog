@@ -21,7 +21,7 @@ class m230816_090802_create_table_tbl_comment extends Migration
         $this->createIndex('author_id', '{{%tbl_comment}}', ['author_id']);
         $this->createIndex('post_id', '{{%tbl_comment}}', ['post_id']);
 
-        $this->addForeignKey(
+        /*$this->addForeignKey(
             'tbl_comment_ibfk_1',
             '{{%tbl_comment}}',
             ['post_id'],
@@ -38,7 +38,7 @@ class m230816_090802_create_table_tbl_comment extends Migration
             ['id'],
             'CASCADE',
             'CASCADE'
-        );
+        );*/
     }
 
     public function safeDown()
