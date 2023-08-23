@@ -74,10 +74,11 @@ class SiteController extends Controller
     {
         $model = new RegisterForm();
         if ($model->load(Yii::$app->request->post()) && $model->register()) {
-            return $this->goBack();
+            return $this->goHome();
         }
 
         $model->password = '';
+        $model->passwordRepeat = '';
         return $this->render('register', [
             'model' => $model,
         ]);
