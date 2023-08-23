@@ -28,6 +28,15 @@ class m230816_090548_create_table_tbl_user extends Migration
             'auth_key' => Yii::$app->security->generateRandomString(),
             'access_token' => Yii::$app->security->generateRandomString()
         ]);
+
+        $this->insert('{{%tbl_user}}', [
+            'username' => 'demo',
+            'password' => Yii::$app->security->generatePasswordHash('demo'),
+            'salt' => Yii::$app->security->generateRandomString(),
+            'email' => 'demo@gmail.com',
+            'auth_key' => Yii::$app->security->generateRandomString(),
+            'access_token' => Yii::$app->security->generateRandomString()
+        ]);
     }
 
     public function safeDown()
