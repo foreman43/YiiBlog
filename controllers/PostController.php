@@ -84,16 +84,22 @@ class PostController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
+        $commentContent = null;
+
+        if($this->request->isPost) {
+            $commentContent = $this->request->post();
+        }
+
         return $this->render('view', [
             'model' => $model,
-            'comment' => $this->newComment($model),
+            'comment' => $this->newComment($model, $commentContent),
         ]);
     }
 
-    protected function newComment(Post $PostModel)
+    protected function newComment(Post $PostModel, mixed $commentContent)
     {
         $comment = new Comment();
-        if($this->request->isPost && $comment->load($this->request->post())) {
+        if($comment->load($commentContent)) {
             if($PostModel->addComment($comment)) {
                 if($comment->approved) {
                     Yii::app()->user->setFlash('commentSubmitted','Thank you for your comment.
