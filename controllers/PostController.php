@@ -122,7 +122,11 @@ class PostController extends Controller
         $model = new Post();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save() && $model->setTags()) {
+            $postData = $this->request->post();
+            $tagIdList = $postData['tagIdList'];
+            unset($postData['tagIdList']);
+            if ($model->load($postData) && $model->save()) {
+                $model->setTags($tagIdList);
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
