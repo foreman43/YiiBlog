@@ -35,10 +35,10 @@ class Post extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['title', 'content', 'tagIdList'], 'required'],
+            [['title', 'content'], 'required'],
             [['content'], 'string', 'min' => 25],
             [['status'], 'exist', 'skipOnError' => true, 'targetClass' => Lookup::class, 'targetAttribute' => ['status' => 'id']],
-            [['created_at', 'updated_at'], 'safe'],
+            [['created_at', 'updated_at', 'tagIdList'], 'safe'],
             [['title'], 'string', 'max' => 128],
         ];
     }
