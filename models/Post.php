@@ -71,7 +71,7 @@ class Post extends \yii\db\ActiveRecord
 
     public function addComment(Comment $model)
     {
-        $model->approved = 0;
+        $model->approved = $model->approved ?? 0;
         $model->post_id = $this->id;
         $model->author_id = Yii::$app->user->id;
 
