@@ -122,11 +122,7 @@ class PostController extends Controller
         $model = new Post();
 
         if ($this->request->isPost) {
-            $postData = $this->request->post();
-            $tagIdList = $postData['tagIdList'];
-            unset($postData['tagIdList']);
-            if ($model->load($postData) && $model->save()) {
-                $model->setTags($tagIdList);
+            if ($model->load($this->request->post()) && $model->save() && $model->setTags()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
@@ -149,8 +145,12 @@ class PostController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save() && $model->setTags()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($this->request->isPost) {
+            if($model->load($this->request->post()) && $model->save() && $model->setTags()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+        } else {
+            $model->loadDefaultValues();
         }
 
         return $this->render('update', [

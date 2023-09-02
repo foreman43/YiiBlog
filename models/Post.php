@@ -98,13 +98,13 @@ class Post extends \yii\db\ActiveRecord
         return $tags;
     }
 
-    public function setTags(array $tagIdList = []): bool
+    public function setTags(): bool
     {
         $currentTags = $this->getTags();
         $currentTagsId = [];
         foreach ($currentTags as $currTag) {
             $currentTagsId[] = $currTag->id;
-            if (!in_array($currTag->id, $tagIdList)
+            if (!in_array($currTag->id, $this->tagIdList)
             && TagPost::find()
                 ->where(['tag_id' => $currTag->id, 'post_id' => $this->id])
                 ->exists()) {
@@ -113,7 +113,7 @@ class Post extends \yii\db\ActiveRecord
             }
         }
 
-        foreach ($tagIdList as $tagId) {
+        foreach ($this->tagIdList as $tagId) {
             if (!in_array($tagId, $currentTagsId)) {
                 $tagPost = new TagPost();
                 $tagPost->tag_id = (int)$tagId;
