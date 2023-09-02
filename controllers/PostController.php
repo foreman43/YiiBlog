@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\Comment;
 use app\models\Post;
 use app\models\PostSearch;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -87,29 +88,17 @@ class PostController extends Controller
         $commentContent = null;
 
         if($this->request->isPost) {
-            $commentContent = $this->request->post();
-        }
-
-        return $this->render('view', [
-            'model' => $model,
-            'comment' => $this->newComment($model, $commentContent),
-        ]);
-    }
-
-    protected function newComment(Post $PostModel, mixed $commentContent)
-    {
-        $comment = new Comment();
-        if($comment->load($commentContent)) {
-            if($PostModel->addComment($comment)) {
-                if($comment->approved) {
-                    Yii::app()->user->setFlash('commentSubmitted','Thank you for your comment.
-                Your comment will be posted once it is approved.');
+            $comment = new Comment();
+            if($comment->load($this->request->post())) {
+                if($model->addComment($comment)) {
                     $this->refresh();
                 }
             }
         }
 
-        return $comment;
+        return $this->render('view', [
+            'model' => $model,
+        ]);
     }
 
     /**
