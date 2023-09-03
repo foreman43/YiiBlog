@@ -5,6 +5,7 @@ namespace app\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Post;
+use yii\db\Query;
 
 /**
  * PostSearch represents the model behind the search form of `app\models\Post`.
@@ -58,10 +59,12 @@ class PostSearch extends Post
             return $dataProvider;
         }
 
+        $publishedStatusId = Lookup::findOne(['name' => 'Опубликовано']);
+
         $query->distinct()
             ->andFilterWhere([
             'id' => $this->id,
-            'status' => $this->status,
+            'status' => $publishedStatusId ?? 1,
         ]);
         $query->andFilterWhere(['>=' ,'created_at', date('Y-m-d H:i:s', strtotime($this->created_at ?? '1990'))]);
 

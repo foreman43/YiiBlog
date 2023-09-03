@@ -14,6 +14,7 @@ use \app\models\Tag;
 
     <?php
     $statusList = Lookup::find()->all();
+    $keyValueStatList = [];
     foreach ($statusList as $item) {
         $keyValueStatList[$item->id] = $item->name;
     }
