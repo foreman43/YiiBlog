@@ -33,9 +33,13 @@ use \app\models\Tag;
 
     <?= $form->field($model, 'content')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'status')->dropDownList($keyValueStatList) ?>
+    <?php echo count($keyValueStatList) > 0
+        ? $form->field($model, 'status')->dropDownList($keyValueStatList)
+        : ''?>
 
-    <?= $form->field($model, 'tagIdList')->checkboxList($keyValueTagList) ?>
+    <?php echo count($keyValueTagList) > 0
+        ? $form->field($model, 'tagIdList')->checkboxList($keyValueTagList)
+        : ''?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

@@ -30,7 +30,9 @@ use app\models\Tag;
 
     <?= $form->field($model, 'created_at') ?>
 
-    <?= $form->field($model, 'tagIdList')->checkboxList($keyValueTagList) ?>
+    <?php echo count($keyValueTagList) > 0
+        ? $form->field($model, 'tagIdList')->checkboxList($keyValueTagList)
+        : ''?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
